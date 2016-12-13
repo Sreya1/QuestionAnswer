@@ -1,0 +1,86 @@
+{{extend 'layout.html'}}
+<style>
+body
+    {
+        font-family:Sans-serif;
+/*         background-color:ivory; */
+        background-image:url("{{=URL('static','images/15.jpg')}}");
+    }
+.suggestions {border: solid 1px #55A6C8; }
+.suggestions div { padding: 2px 4px 2px 4px; }
+</style>
+
+<div class="page-header">
+    <h1 id="timeline" style="color:white;font-family:Sans-serif">Search  <span class="glyphicon glyphicon-search"></span></h1>
+  </div>
+<br/>
+<form action="" method="post">
+
+<select name="dropdown" id="dd">
+<option value="Title" selected>Tag</option>
+<option value="Description">Description</option>
+<option value="Author">Author</option>
+</select>  
+    <input name="textbox" type="text" id="tb" oninput="autoc1()" list="datalist1" autocomplete="off">
+<input type="submit" value="Submit" />
+<br><br>
+    <datalist id="datalist1">
+
+</datalist>
+    <div id="status"></div>
+{{if len(images):}}
+<div class="table-responsive" style="background-color:white; border-radius: 5px; border: 1px solid #999; xborder-collapse: collapse;">
+    <table class="table table-hover">
+        <tr><th>Tags</th>
+            <th>Description</th>
+            <th>Number of Answers</th></tr>
+    {{for image in images:}}
+    <tr>
+        
+        <td>{{for i in image.title:}}
+            <span> {{=i}}</span>
+            {{pass}}
+        </td>
+        <td>{{=A(image.body,_href=URL("show",args=image.id))}}</td>
+        
+        {{if image.no_ans == '0':}}
+        <td><div class="alert alert-danger">{{=image.no_ans}}</div></td>
+        
+        {{else:}}
+        <td><div class="alert alert-success">{{=image.no_ans}}</div></td>
+        {{pass}}
+        
+    </tr>
+    {{pass}}
+    </table>
+</div>
+{{pass}}
+    
+<script>
+    
+
+      
+    
+    function autoc1()
+    {
+
+    xhr=new XMLHttpRequest();
+    xhr.open("POST", '{{=URL('default','autoc')}}', true);
+    
+    type=document.getElementById("dd").value;
+    text=document.getElementById("tb").value;
+//     val="text="+text+"&type="+type;
+    val=JSON.stringify({"text":text, "type":type});
+//     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onreadystatechange = function() {
+						    	    if(xhr.readyState == 4 && xhr.status == 200) {
+								    		    var return_data = xhr.responseText;
+										    	document.getElementById("datalist1").innerHTML = return_data;
+                                        }
+    };
+    xhr.send(val);
+    
+    };
+
+</script>

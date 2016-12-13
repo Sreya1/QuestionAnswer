@@ -1,0 +1,29 @@
+{{extend 'layout.html'}}
+<style>
+body
+    {
+        background-image:url("{{=URL('static','images/14.jpg')}}");
+                background-size:100%;
+        font-family:Sans-serif;
+    }
+    .back
+    {
+        background-image:url("{{=URL('static','images/12.jpg')}}");
+        background-size:100%;
+    }
+</style>
+<header class="container-fluid background">
+      <div class="jumbotron text-center">
+        
+        <h1>Feedback!</h1>
+          
+      </div>
+    </header>
+<br><br>
+{{=form}}
+
+{{for post in posts:}}
+<ul  style="list-style-type:none;">
+    <li class="alert alert-warning">{{=post.author}} : {{=post.feedback}}</li>
+</ul>
+{{pass}}
