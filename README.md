@@ -18,4 +18,5 @@
 - Can star a question
 - See starred question
 - Can ask question anonymously
+- Notifications 
 - Interactive UI
